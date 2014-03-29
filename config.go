@@ -5,15 +5,15 @@ import (
 	"time"
 )
 
-type factory func() (net.Listener, error)
+type Factory func() (net.Listener, error)
 
-type handler func(net.IP)
+type Handler func(net.IP)
 
 type Config struct {
 	Count    uint
 	Duration time.Duration
-	Factory  factory
-	Handler  handler
+	Factory  Factory
+	Handler  Handler
 }
 
 func (c Config) GetCount() uint {
@@ -24,20 +24,20 @@ func (c Config) GetDuration() time.Duration {
 	return c.Duration
 }
 
-func (c Config) GetFactory() factory {
+func (c Config) GetFactory() Factory {
 	return c.Factory
 }
 
-func (c Config) GetHandler() handler {
+func (c Config) GetHandler() Handler {
 	return c.Handler
 }
 
 type receiverConfig interface {
-	GetFactory() factory
+	GetFactory() Factory
 }
 
 type recorderConfig interface {
-	GetHandler() handler
+	GetHandler() Handler
 	GetCount() uint
 	GetDuration() time.Duration
 }
